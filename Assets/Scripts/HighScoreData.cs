@@ -10,6 +10,5 @@ public class HighScore : MonoBehaviour {
 	void Start(){
 		Highscore = GetComponent<Text> ();
 		Highscore.text = "High Score: " + PlayerPrefs.GetInt ("HighScore").ToString();
-
 	}
 }

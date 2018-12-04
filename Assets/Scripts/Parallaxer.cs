@@ -45,18 +45,6 @@ public class Parallaxer : MonoBehaviour {
 	}
 
 
-	public void OnGameOverParallaxer(){
-		for (int i = 0; i < poolObjects.Length; i++) {
-			poolObjects [i].Dispose ();
-			poolObjects [i].transform.position = Vector3.one * 1000;
-		}
-		if (spawnImmediate) {
-			SpawnImmediate ();
-		}
-
-	}
-
-
 	void Update(){
 		if (game.GameOver)
 			return;
@@ -135,4 +123,16 @@ public class Parallaxer : MonoBehaviour {
 		}
 		return null;
 	}
+
+
+	public void OnGameOverParallaxer(){
+		for (int i = 0; i < poolObjects.Length; i++) {
+			poolObjects [i].Dispose ();
+			poolObjects [i].transform.position = Vector3.one * 1000;
+		}
+		if (spawnImmediate) {
+			SpawnImmediate ();
+		}
+	}
+
 }

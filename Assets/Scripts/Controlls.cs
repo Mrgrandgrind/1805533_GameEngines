@@ -9,6 +9,9 @@ public class Controlls : MonoBehaviour {
     public float tiltSmooth = 5;
     public Vector3 startPos;
 	public GameObject Camera;
+	public AudioSource Die;
+	public AudioSource Point;
+	public AudioSource Jump;
 
     Rigidbody2D RigidBody;
     Quaternion downRotation;
@@ -23,11 +26,13 @@ public class Controlls : MonoBehaviour {
         forwardRotation = Quaternion.Euler(0, 0, 35);
 		game = GameLogic.Instance;
 		RigidBody.simulated = false;
+		this.GetComponent<Animator> ().enabled = false;
     }
 
 	public void OnGameStarted(){
 		RigidBody.velocity = Vector3.zero;
 		RigidBody.simulated = true;
+		this.GetComponent<Animator> ().enabled = true;
 	}
 
 	public void OnGameOverConfirmed(){
@@ -44,6 +49,7 @@ public class Controlls : MonoBehaviour {
             transform.rotation = forwardRotation;
 			RigidBody.velocity = Vector3.zero;
 			RigidBody.AddForce(Vector2.up * tapForce, ForceMode2D.Force);
+			Jump.Play ();
         }
 
         transform.rotation = Quaternion.Lerp(transform.rotation, downRotation, tiltSmooth * Time.deltaTime);
@@ -53,6 +59,8 @@ public class Controlls : MonoBehaviour {
 		Debug.LogError (col.gameObject.tag);
         if (col.gameObject.tag == "DeathCollision")
         {
+			Die.Play();
+			this.GetComponent<Animator> ().enabled = false;
 			this.RigidBody.simulated = false;
             //register dead event
 			Camera.GetComponent<GameLogic>().OnPlayerDies();
@@ -61,7 +69,7 @@ public class Controlls : MonoBehaviour {
 
 		if (col.gameObject.tag == "ScoreCollision")
 		{
-			
+			Point.Play();
 			//register Score event
 			Camera.GetComponent<GameLogic>().OnPlayerScored(); //Event sent to Gamelogic
 			// Play a sound
